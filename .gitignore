@@ -1,0 +1,35 @@
+# Ignore build outputs
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code settings
+.vscode/
+
+# Rider settings
+.idea/
+
+# Build results
+[Bb]uild/
+[Ll]og/
+*.log
+
+# NuGet packages
+*.nupkg
+*.snupkg
+.nuget/
+
+# Recycle Bin folder
+$RECYCLE.BIN/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Others
+*.cache
