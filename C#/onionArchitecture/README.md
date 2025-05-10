@@ -10,8 +10,6 @@ BookStore is a RESTful API built with ASP.NET Core using **Onion Architecture**.
 - [Running the API](#running-the-api)
 - [Testing the API](#testing-the-api)
 - [Onion Architecture Layers](#onion-architecture-layers)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Project Structure
 
