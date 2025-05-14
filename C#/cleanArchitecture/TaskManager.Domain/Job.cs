@@ -26,4 +26,11 @@ public class Job
             throw new ArgumentException("Job title cannot be empty.");
         }
     }
+
+        public void Complete()
+    {
+        if (IsCompleted)
+            throw new InvalidOperationException("Job is already completed.");
+        IsCompleted = true;
+    }
 }

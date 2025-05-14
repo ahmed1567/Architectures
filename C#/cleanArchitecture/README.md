@@ -8,8 +8,6 @@ Setup Instructions
 Running the API
 Testing the API
 Clean Architecture Layers
-Contributing
-License
 
 Project Structure
 The solution (TaskManager.sln) is organized into four projects, following Clean Architecture:

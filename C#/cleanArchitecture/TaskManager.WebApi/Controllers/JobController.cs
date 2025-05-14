@@ -9,10 +9,17 @@ namespace JobManager.WebApi.Controllers;
 public class JobController : ControllerBase
 {
     private readonly CreateJobUseCase _createJobUseCase;
+    private readonly GetAllJobsUseCase _getAllJobsUseCase;
+    private readonly CompleteJobUseCase _completeJobUseCase;
 
-    public JobController(CreateJobUseCase createJobUseCase)
+    public JobController(
+        CreateJobUseCase createJobUseCase,
+        GetAllJobsUseCase getAllJobsUseCase,
+        CompleteJobUseCase completeJobUseCase)
     {
         _createJobUseCase = createJobUseCase;
+        _getAllJobsUseCase = getAllJobsUseCase;
+        _completeJobUseCase = completeJobUseCase;
     }
 
     [HttpPost]
@@ -20,6 +27,20 @@ public class JobController : ControllerBase
     {
         var JobDto = _createJobUseCase.Execute(request.Title, request.Description);
         return Ok(JobDto);
+    }
+
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var jobs = _getAllJobsUseCase.Execute();
+        return Ok(jobs);
+    }
+
+    [HttpPost("{id}/complete")]
+    public IActionResult Complete(Guid id)
+    {
+        var jobDto = _completeJobUseCase.Execute(id);
+        return Ok(jobDto);
     }
 }
 

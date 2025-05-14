@@ -6,17 +6,30 @@ namespace BookStore.Application.Services;
 
 public class CreateBookService
 {
-    private readonly IBookRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateBookService(IBookRepository repository)
+    public CreateBookService(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public BookDto Execute(string title, string author, decimal price)
+    public async Task<BookDto> ExecuteAsync(string title, string author, decimal price)
     {
         var book = new Book(title, author, price);
-        _repository.Save(book);
+        await _unitOfWork.BookRepository.AddAsync(book);
+        
+        var inventory = new Inventory(book.Id, 10); // Initial stock of 10
+        await _unitOfWork.InventoryRepository.AddAsync(inventory);
+        
+        await _unitOfWork.CommitAsync();
+        return new BookDto(book.Id, book.Title, book.Author, book.Price);
+    }
+
+    public async Task<BookDto> ApplyDiscountAsync(Guid id, decimal discountPercentage)
+    {
+        var book = await _unitOfWork.BookRepository.GetByIdAsync(id);
+        book.ApplyDiscount(discountPercentage);
+        await _unitOfWork.CommitAsync();
         return new BookDto(book.Id, book.Title, book.Author, book.Price);
     }
 }

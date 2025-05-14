@@ -4,6 +4,7 @@ namespace BookStore.Application.Interfaces;
 
 public interface IBookRepository
 {
-    void Save(Book book);
-    List<Book> GetAll();
+    Task AddAsync(Book book);
+    Task<List<Book>> GetAllAsync();
+    Task<Book> GetByIdAsync(Guid id);
 }

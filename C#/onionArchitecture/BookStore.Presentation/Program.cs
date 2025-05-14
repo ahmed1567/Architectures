@@ -16,9 +16,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("BookStoreDb"));
 
 // Register dependencies
+
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<CreateBookService>();
 builder.Services.AddScoped<GetAllBooksService>();
+builder.Services.AddScoped<PurchaseBookService>();
+builder.Services.AddScoped<AddCustomerService>();
 
 var app = builder.Build();
 

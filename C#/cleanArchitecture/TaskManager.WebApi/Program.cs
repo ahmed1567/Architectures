@@ -19,6 +19,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Register dependencies
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<CreateJobUseCase>();
+builder.Services.AddScoped<GetAllJobsUseCase>();
+builder.Services.AddScoped<CompleteJobUseCase>();
 
 var app = builder.Build();
 

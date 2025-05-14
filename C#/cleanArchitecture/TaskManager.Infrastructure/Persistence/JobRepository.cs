@@ -18,4 +18,14 @@ public class JobRepository : IJobRepository
         _context.SaveChanges();
         return task;
     }
+
+        public List<Job> GetAll()
+    {
+        return _context.Jobs.ToList();
+    }
+
+    public Job GetById(Guid id)
+    {
+        return _context.Jobs.Find(id) ?? throw new InvalidOperationException("Job not found.");
+    }
 }

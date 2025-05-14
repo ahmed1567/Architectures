@@ -5,16 +5,24 @@ namespace BookStore.Application.Services;
 
 public class GetAllBooksService
 {
-    private readonly IBookRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetAllBooksService(IBookRepository repository)
+    public GetAllBooksService(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public List<BookDto> Execute()
+    public async Task<List<BookWithInventoryDto>> ExecuteAsync()
     {
-        var books = _repository.GetAll();
-        return books.Select(b => new BookDto(b.Id, b.Title, b.Author, b.Price)).ToList();
+        var books = await _unitOfWork.BookRepository.GetAllAsync();
+        var result = new List<BookWithInventoryDto>();
+
+        foreach (var book in books)
+        {
+            var inventory = await _unitOfWork.InventoryRepository.GetByBookIdAsync(book.Id);
+            result.Add(new BookWithInventoryDto(book.Id, book.Title, book.Author, book.Price, inventory.Quantity));
+        }
+
+        return result;
     }
 }

@@ -1,6 +1,7 @@
 using BookStore.Application.Interfaces;
 using BookStore.Domain;
 using BookStore.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Infrastructure.Persistence;
 
@@ -13,14 +14,19 @@ public class BookRepository : IBookRepository
         _context = context;
     }
 
-    public void Save(Book book)
+    public async Task AddAsync(Book book)
     {
-        _context.Books.Add(book);
-        _context.SaveChanges();
+        await _context.Books.AddAsync(book);
     }
 
-    public List<Book> GetAll()
+    public async Task<List<Book>> GetAllAsync()
     {
-        return _context.Books.ToList();
+        return await _context.Books.ToListAsync();
+    }
+
+    public async Task<Book> GetByIdAsync(Guid id)
+    {
+        var book = await _context.Books.FindAsync(id);
+        return book ?? throw new InvalidOperationException("Book not found.");
     }
 }
